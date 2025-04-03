@@ -23,8 +23,10 @@ targets:
       host: https://dbc-ea11f71b-d022.cloud.databricks.com
       root_path: /Workspace/Shared/${bundle.target}/.bundle/${bundle.name}
     permissions:
-      - level: CAN_VIEW
-        group_name: users   
+      - user_name: josephvincevertulfo@gmail.com
+        level: CAN_MANAGE
+      - group_name: CAN_VIEW
+        level: users   
 
   prod:
     mode: production
@@ -32,7 +34,7 @@ targets:
       host: https://dbc-ea11f71b-d022.cloud.databricks.com
       root_path: /Workspace/Shared/${bundle.target}/.bundle/${bundle.name}
     permissions:
-      # - user_name: josephvincevertulfo@gmail.com
-      #   level: CAN_MANAGE
-      - level: CAN_VIEW
-        group_name: users  
+      - user_name: josephvincevertulfo@gmail.com
+        level: CAN_MANAGE
+      - group_name: CAN_VIEW
+        level: users  
