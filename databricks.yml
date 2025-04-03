@@ -25,8 +25,8 @@ targets:
     permissions:
       - user_name: josephvincevertulfo@gmail.com
         level: CAN_MANAGE
-      - group_name: CAN_VIEW
-        level: users   
+      - group_name: users
+        level: CAN_VIEW    
 
   prod:
     mode: production
@@ -36,5 +36,5 @@ targets:
     permissions:
       - user_name: josephvincevertulfo@gmail.com
         level: CAN_MANAGE
-      - group_name: CAN_VIEW
-        level: users  
+      - group_name: users
+        level: CAN_VIEW  
