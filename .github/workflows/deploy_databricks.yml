@@ -1,0 +1,47 @@
+name: Deploy Databricks
+
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - main
+    paths:
+      - 'src/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}  # Dynamically selects the environment based on branch name
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v4
+
+      # Download the Databricks CLI. See https://github.com/databricks/setup-cli
+      - uses: databricks/setup-cli@main
+
+      - name: Extract branch name
+        shell: bash
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [[ "$BRANCH_NAME" == "main" ]]; then
+            echo "TARGET_ENV=prod" >> $GITHUB_ENV
+          else
+            echo "TARGET_ENV=$BRANCH_NAME" >> $GITHUB_ENV
+          fi
+        id: extract_branch
+
+      # DEBUG
+      - name: Print target environment
+        run: |
+          echo "This workflow was triggered for environment: $TARGET_ENV"
+
+      - name: Validate Databricks bundle
+        run: databricks bundle validate -t $TARGET_ENV
+
+      - name: Deploy Databricks bundle
+        run: databricks bundle deploy -t $TARGET_ENV

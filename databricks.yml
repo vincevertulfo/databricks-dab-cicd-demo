@@ -1,0 +1,38 @@
+# This is a Databricks asset bundle definition for dab_cicd_demo.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: dab_cicd_demo
+  uuid: d81d45c8-b781-42c6-a53f-c99fda82b565
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-ea11f71b-d022.cloud.databricks.com
+
+  test:
+    workspace:
+      host: https://dbc-ea11f71b-d022.cloud.databricks.com
+      root_path: /Workspace/Shared/${bundle.target}/.bundle/${bundle.name}
+    permissions:
+      - level: CAN_VIEW
+        group_name: users   
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-ea11f71b-d022.cloud.databricks.com
+      root_path: /Workspace/Shared/${bundle.target}/.bundle/${bundle.name}
+    permissions:
+      # - user_name: josephvincevertulfo@gmail.com
+      #   level: CAN_MANAGE
+      - level: CAN_VIEW
+        group_name: users  
