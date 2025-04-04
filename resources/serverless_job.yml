@@ -1,0 +1,11 @@
+resources:
+  jobs:
+    sample_serverless_notebook:
+      name: sample_serverless_notebook_${bundle.target}
+      tasks:
+        - task_key: sample_serverless_notebook_1
+          notebook_task:
+            notebook_path: ../src/bronze/dim_branch.ipynb
+            source: WORKSPACE
+      queue:
+        enabled: true
